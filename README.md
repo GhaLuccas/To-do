@@ -1,4 +1,5 @@
-Django To-Do List 📝
+# Django To-Do List 📝
+
 Welcome to my Django learning project! This repository focuses on building a fully functional To-Do List application while practicing essential Django concepts and features.
 
 ---
