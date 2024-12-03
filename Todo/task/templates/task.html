@@ -1,0 +1,17 @@
+{% extends "nav.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>Task List</h1>
+        <p class="lead">manage your tasks here </p>
+    </div>
+
+    <div>
+        <p>Create new task</p>
+        <a href="{% url 'task:create-task' %}">new task</a>
+    </div>
+
+
+{% endblock %}
