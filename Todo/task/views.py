@@ -1,9 +1,4 @@
-from django.shortcuts import render , redirect
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from django.views import generic , View  
-from django.views.generic import CreateView , TemplateView
-from django.views.generic.edit import FormView
+from django.shortcuts import render , redirect , get_object_or_404
 from .models import Task
 from . forms import TaskForm
 
@@ -29,4 +24,8 @@ def create_task(request):
     else:
         form = TaskForm()
         return render(request , 'create_task.html' , {'form':form})
-        
+    
+
+def task_read(request , task_id):
+    task = get_object_or_404(Task , id=task_id)
+    return render(request, 'task:task' , {'task':task})
