@@ -12,15 +12,21 @@ from . forms import TaskForm
 def home_page(request):
     return render(request , 'home.html')
 
-class task_page(TemplateView):
-    template_name = 'task.html'
+def task_page(request):
+    request_user = request.user
+    tasks = Task.objects.filter(author=request_user)
+    return render (request , "task.html" , {'tasks':tasks})
 
 
-
-class TaskCreateView(FormView):
-    template_name = 'create_task.html'
-    form_class = TaskForm
-    success_url = '//'
-    
-    def form_valid(self, form):
-        return HttpResponseRedirect(self.get_success_url()) 
+def create_task(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.author = request.user
+            task.save()
+            return redirect('task:task')
+    else:
+        form = TaskForm()
+        return render(request , 'create_task.html' , {'form':form})
+        

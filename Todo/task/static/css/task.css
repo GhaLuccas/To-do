@@ -1,0 +1,22 @@
+/* static/css/task.css */
+.task-context {
+    word-wrap: break-word;
+    max-height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-details {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.btn-sm {
+    margin-right: 5px;
+}
+
