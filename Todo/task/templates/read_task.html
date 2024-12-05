@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+    <div class="card mx-auto mt-5" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>{{ task.title }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Description:</strong></p>
+            <p class="text-muted">{{ task.context }}</p>
+            
+            <p><strong>Status:</strong> 
+                {% if task.done %}
+                    <span class="badge bg-success">Completed</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                {% endif %}
+            </p>
+
+            <p><strong>Created At:</strong> {{ task.created_at|date:"F j, Y, g:i a" }}</p>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'task:task' %}" class="btn btn-warning me-2">Update</a>
+            <form action="{% url 'task:task-delete' task.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+            </form>
+            <a href="{% url 'task:task' %}" class="btn btn-secondary ms-2">Back to List</a>
+        </div>
+    </div>
+{% endblock %}

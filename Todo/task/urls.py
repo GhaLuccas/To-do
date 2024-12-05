@@ -1,11 +1,13 @@
 from django.urls import path
-from .views import home_page , task_page , create_task , task_read
+from . import views 
 
 app_name = 'task'
 
 urlpatterns =[
-    path("home/" , home_page , name='home'),
-    path('task/' , task_page , name='task') ,
-    path('task/<int:task_id>/', task_read , name='read-task'),
-    path('task/create/' , create_task , name='create-task' ),
+    path("home/" , views.home_page , name='home'),
+    path('task/' , views.task_page , name='task'),
+    path('task/create/' , views.task_create , name='task-create' ),
+    path('task/<int:task_id>/read/', views.task_read , name='task-read'),
+    path("task/<int:task_id>/delete/" , views.task_delete , name='task-delete'),
+    path('task/<int:task_id>/update/', views.task_update , name='task-update' ),
 ]
