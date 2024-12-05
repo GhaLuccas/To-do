@@ -1,18 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post"  action="{% url 'task:task-create' %}" >
-        {% csrf_token %}
+{% extends "base.html" %}
 
-        <div class="form-group">
-            {{ form.as_p}}
-        </div>
-        <button type="submit" class="btn btn-primary" >Create</button>
-    </form>
-</body>
-</html>
+{% block title %}Create Task{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>Create a New Task</h1>
+        <p class="lead">Fill in the details of your task below</p>
+    </div>
+    
+    <div class="card p-4 shadow">
+        <form method="post" action="{% url 'task:task-create' %}">
+            {% csrf_token %}
+            
+            <!-- Title Field -->
+            <div class="mb-3">
+                <label for="id_title" class="form-label">{{ form.title.label }}</label>
+                <input type="text" name="title" id="id_title" class="form-control">
+                {% if form.title.errors %}
+                    <div class="text-danger">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Context Field -->
+            <div class="mb-3">
+                <label for="id_context" class="form-label">{{ form.context.label }}</label>
+                <textarea name="context" id="id_context" class="form-control"></textarea>
+                {% if form.context.errors %}
+                    <div class="text-danger">{{ form.context.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Done Field -->
+            <div class="form-check mb-3">
+                <input type="checkbox" name="done" id="id_done" class="form-check-input" {% if form.done.value %}checked{% endif %}>
+                <label for="id_done" class="form-check-label">{{ form.done.label }}</label>
+                {% if form.done.errors %}
+                    <div class="text-danger">{{ form.done.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="{% url 'task:task' %}" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
