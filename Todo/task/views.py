@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 from .models import Task
 from . forms import TaskForm
@@ -27,10 +28,11 @@ def task_create(request):
             task = form.save(commit=False)
             task.author = request.user
             task.save()
+            messages.success(request, 'Task created successfully!')
             return redirect(tasklist_page)
     else:
         form = TaskForm()
-        return render(request , 'create_task.html' , {'form':form})
+    return render(request , 'create_task.html' , {'form':form})
 
 @login_required
 def task_update(request , task_id):
@@ -39,10 +41,11 @@ def task_update(request , task_id):
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Task created successfully!')
             return redirect(tasklist_page)
     else:
-            form = TaskForm(instance=task)
-            return render(request , 'task_update.html' , {'form':form})
+        form = TaskForm(instance=task)
+    return render(request , 'task_update.html' , {'form':form})
 
 @login_required
 def task_read(request , task_id):
