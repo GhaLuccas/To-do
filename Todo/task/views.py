@@ -1,4 +1,5 @@
 from django.shortcuts import render , redirect , get_object_or_404
+from django.http import JsonResponse
 from .models import Task
 from . forms import TaskForm
 
@@ -47,3 +48,13 @@ def task_delete(request , task_id):
     task = get_object_or_404(Task , id=task_id)
     task.delete()
     return redirect(tasklist_page)
+
+
+
+def toggle_status(request, task_id):
+    if request.method == 'POST':
+        task = get_object_or_404(Task, id=task_id)
+        task.done = not task.done
+        task.save()
+        return JsonResponse({'success': True, 'done': task.done})
+    return JsonResponse({'success': False})

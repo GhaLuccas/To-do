@@ -18,34 +18,37 @@
         {% if tasks %}
         <ul class="list-group">
             {% for task in tasks %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex flex-column flex-md-row align-items-md-center">
-                        <div>
-                            <strong>{{ task.title }}</strong>
-                        </div>
-                        <div class="ms-md-3">
-                            {% if task.done %}
-                                <span class="badge bg-success">Completed</span>
-                            {% else %}
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            {% endif %}
-                        </div>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column flex-md-row align-items-md-center">
+                    <div>
+                        <strong>{{ task.title }}</strong>
                     </div>
-                    <div class="d-flex">
-                        <!-- Botões de ação -->
-                        <a href="{% url 'task:task-read' task.id %}" class="btn btn-info btn-sm me-2">View</a>
-                        <a href="{% url 'task:task-update' task.id %}" class="btn btn-warning btn-sm me-2">Update</a>
-                        <form action="{% url 'task:task-delete' task.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
-                        </form>
+                    <div class="ms-md-3">
+                        <button 
+                        class="btn btn-sm toggle-status 
+                               {% if task.done %}btn-success{% else %}btn-warning{% endif %}" 
+                        data-id="{{ task.id }}">
+                        {% if task.done %}Completed{% else %}Pending{% endif %}
+                    </button>
+                    
                     </div>
-                </li>
+                </div>
+                <div class="d-flex">
+                    <a href="{% url 'task:task-read' task.id %}" class="btn btn-info btn-sm me-2">View</a>
+                    <a href="{% url 'task:task-update' task.id %}" class="btn btn-warning btn-sm me-2">Update</a>
+                    <form action="{% url 'task:task-delete' task.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+                    </form>
+                </div>
+            </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No tasks available.</p>
     {% endif %}    
     </div>
-
 {% endblock %}
+
+
+
