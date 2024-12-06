@@ -1,4 +1,5 @@
 from django.shortcuts import render , redirect , get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Task
 from . forms import TaskForm
@@ -8,15 +9,17 @@ from . forms import TaskForm
 
 tasklist_page = "task:task"
 
+
 def home_page(request):
     return render(request , 'home.html')
 
+@login_required
 def task_page(request):
     request_user = request.user
     tasks = Task.objects.filter(author=request_user)
     return render (request , "task.html" , {'tasks':tasks})
 
-
+@login_required
 def task_create(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -29,6 +32,7 @@ def task_create(request):
         form = TaskForm()
         return render(request , 'create_task.html' , {'form':form})
 
+@login_required
 def task_update(request , task_id):
     task = get_object_or_404(Task , id=task_id)
     if request.method == "POST":
@@ -40,17 +44,19 @@ def task_update(request , task_id):
             form = TaskForm(instance=task)
             return render(request , 'task_update.html' , {'form':form})
 
+@login_required
 def task_read(request , task_id):
     task = get_object_or_404(Task , id=task_id)
     return render(request, 'read_task.html' , {'task':task})
 
+@login_required
 def task_delete(request , task_id):
     task = get_object_or_404(Task , id=task_id)
     task.delete()
     return redirect(tasklist_page)
 
 
-
+@login_required
 def toggle_status(request, task_id):
     if request.method == 'POST':
         task = get_object_or_404(Task, id=task_id)
