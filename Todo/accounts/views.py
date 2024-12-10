@@ -8,7 +8,7 @@ from django.contrib import messages
 # accounts app  views here.
 
 class UserCreateView(View):
-   
+
     def get(self , request):
         form = UserCreationForm()
         return render(request , 'register.html' , {'form':form})
@@ -18,6 +18,7 @@ class UserCreateView(View):
         if form.is_valid():
             user = form.save()
             messages.success(request , f'account created for {user.username}')
+            login(request , user)
             return redirect('task:home')
         return render(request , 'register.html' , {'form':form})
     
