@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import Task
@@ -17,7 +18,10 @@ def home_page(request):
 @login_required
 def task_page(request):
     request_user = request.user
+    search_query = request.GET.get('search', '')  # Correto 
     tasks = Task.objects.filter(author=request_user)
+    if search_query:
+        tasks = tasks.filter(Q(title__icontains=search_query) | Q(context__icontains=search_query))
     return render (request , "task.html" , {'tasks':tasks})
 
 @login_required
