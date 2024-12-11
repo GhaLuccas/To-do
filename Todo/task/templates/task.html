@@ -15,18 +15,15 @@
 <!-- Search Form -->
 <div class="mb-4">
     <form method="get" class="input-group">
-        <div class="form-outline">
-            <input 
-                type="search" 
-                id="search" 
-                name="search" 
-                class="form-control" 
-                placeholder="Search tasks..." 
-                value="{{ request.GET.search }}">
-            <label class="form-label" for="search">Search</label>
-        </div>
+        <input 
+            type="search" 
+            id="search" 
+            name="search" 
+            class="form-control" 
+            placeholder="Search tasks..." 
+            value="{{ request.GET.search }}">
         <button type="submit" class="btn btn-primary">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search"></i> Search
         </button>
     </form>
 </div>
