@@ -31,15 +31,15 @@
                 {% endif %}
             </div>
             
-            <!-- Done Field -->
-            <div class="form-check mb-3">
-                <input type="checkbox" name="done" id="id_done" class="form-check-input" {% if form.done.value %}checked{% endif %}>
-                <label for="id_done" class="form-check-label">{{ form.done.label }}</label>
-                {% if form.done.errors %}
-                    <div class="text-danger">{{ form.done.errors }}</div>
+            <!-- deadline Field -->
+            <div class="mb-3">
+                <label for="id_deadline" class="form-label">{{ form.deadline.label }}</label>
+                <input type="datetime-local" name="deadline" id="id_deadline" class="form-control">
+                {% if form.deadline.errors %}
+                    <div class="text-danger">{{ form.deadline.errors }}</div>
                 {% endif %}
             </div>
-            
+
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">Create</button>
             <a href="{% url 'task:task' %}" class="btn btn-secondary">Back</a>

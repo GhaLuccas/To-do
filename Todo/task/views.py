@@ -15,11 +15,15 @@ tasklist_page = "task:task"
 def home_page(request):
     return render(request , 'home.html')
 
+    
+
 @login_required
 def task_page(request):
     request_user = request.user
-    search_query = request.GET.get('search', '')  # Correto 
     tasks = Task.objects.filter(author=request_user)
+    for task in tasks:
+        task.update_status()
+    search_query = request.GET.get('search', '') 
     if search_query:
         tasks = tasks.filter(Q(title__icontains=search_query) | Q(context__icontains=search_query))
     return render (request , "task.html" , {'tasks':tasks})
@@ -67,7 +71,10 @@ def task_delete(request , task_id):
 def toggle_status(request, task_id):
     if request.method == 'POST':
         task = get_object_or_404(Task, id=task_id)
-        task.done = not task.done
+        if task.status == 'done':
+            task.status = 'pending'
+        else:
+            task.status = 'done'
         task.save()
-        return JsonResponse({'success': True, 'done': task.done})
+        return JsonResponse({'success': True, 'done': task.status})
     return JsonResponse({'success': False})

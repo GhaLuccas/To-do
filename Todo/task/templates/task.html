@@ -41,12 +41,21 @@
                     </div>
                     <div class="ms-md-3">
                         <button 
-                        class="btn btn-sm toggle-status 
-                               {% if task.done %}btn-success{% else %}btn-warning{% endif %}" 
-                        data-id="{{ task.id }}">
-                        {% if task.done %}Completed{% else %}Pending{% endif %}
+                            class="btn btn-sm toggle-status 
+                                   {% if task.status == 'done' %}btn-success
+                                   {% elif task.status == 'expired' %}btn-danger
+                                   {% else %}btn-warning{% endif %}" 
+                            data-id="{{ task.id }}">
+                            {% if task.status == 'done' %}
+                                Completed
+                            {% elif task.status == 'expired' %}
+                                Expired
+                            {% else %}
+                                Pending
+                            {% endif %}
                         </button>
                     </div>
+                    
                 </div>
                 <div class="d-flex">
                     <a href="{% url 'task:task-read' task.id %}" class="btn btn-info btn-sm me-2">View</a>
