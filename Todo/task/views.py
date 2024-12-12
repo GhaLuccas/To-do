@@ -71,10 +71,16 @@ def task_delete(request , task_id):
 def toggle_status(request, task_id):
     if request.method == 'POST':
         task = get_object_or_404(Task, id=task_id)
+        
+        # Atualiza status baseado no deadline
+        task.update_status()
+        
         if task.status == 'done':
             task.status = 'pending'
-        else:
+        elif task.status in ['pending', 'expired']:
             task.status = 'done'
+        
         task.save()
-        return JsonResponse({'success': True, 'done': task.status})
-    return JsonResponse({'success': False})
+        return JsonResponse({'success': True, 'status': task.status})
+    
+    return JsonResponse({'success': False, 'message': 'Task not found or invalid request'})

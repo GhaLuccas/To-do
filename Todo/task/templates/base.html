@@ -105,7 +105,7 @@
                     const taskId = this.getAttribute('data-id');
                     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                    fetch(`/task/toggle-status/${taskId}/`, {
+                    fetch(`toggle-status/${taskId}/`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': csrfToken,
