@@ -24,8 +24,11 @@ def task_page(request):
     for task in tasks:
         task.update_status()
     search_query = request.GET.get('search', '') 
+    completed = request.GET.get('completed' , '')
     if search_query:
         tasks = tasks.filter(Q(title__icontains=search_query) | Q(context__icontains=search_query))
+    if completed.lower() == "true":
+        tasks = tasks.filter(status='done')
     return render (request , "task.html" , {'tasks':tasks})
 
 @login_required
