@@ -19,16 +19,27 @@ def home_page(request):
 
 @login_required
 def task_page(request):
+    
     request_user = request.user
     tasks = Task.objects.filter(author=request_user)
+    
     for task in tasks:
         task.update_status()
+    
     search_query = request.GET.get('search', '') 
     completed = request.GET.get('completed' , '')
+    pending = request.GET.get('pending' , '')
+    expired = request.GET.get('expired' , '')
+    
     if search_query:
         tasks = tasks.filter(Q(title__icontains=search_query) | Q(context__icontains=search_query))
     if completed.lower() == "true":
         tasks = tasks.filter(status='done')
+    if pending.lower() == "true":
+        tasks = tasks.filter(status='pending')
+    if expired.lower() =="true":
+        tasks = tasks.filter(status='expired')
+    
     return render (request , "task.html" , {'tasks':tasks})
 
 @login_required
